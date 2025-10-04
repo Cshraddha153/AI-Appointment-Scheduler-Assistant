@@ -121,7 +121,7 @@ Steps:
 2. Paste this:
 
 {
-  "text": "Book dentist next Friday at 3pm"
+  "text": "Get physician appointment 5:30 pm tomorrow"
 }
 
 
@@ -130,19 +130,35 @@ Steps:
 **Response:**
 
 {
-  "step1_raw": {"raw_text": "Book dentist next Friday at 3pm", "confidence": 0.95},
-  "step2_entities": {
-    "entities": {"date_phrase": "next friday", "time_phrase": "3pm", "department": "Dentistry"},
-    "entities_confidence": 0.85
-  },
-  "step3_normalized": {
-    "normalized": {"date": "2025-10-10", "time": "15:00", "tz": "Asia/Kolkata"},
-    "normalization_confidence": 0.9
-  },
-  "final": {
-    "appointment": {"department": "Dentistry", "date": "2025-10-10", "time": "15:00", "tz": "Asia/Kolkata"},
-    "status": "ok"
-  }
+    "step1_raw": {
+        "raw_text": "Get physician appointment 5:30 pm tomorrow",
+        "confidence": 0.95
+    },
+    "step2_entities": {
+        "entities": {
+            "date_phrase": "tomorrow",
+            "time_phrase": "5:30 pm",
+            "department": "Doctor"
+        },
+        "entities_confidence": 0.99
+    },
+    "step3_normalized": {
+        "normalized": {
+            "date": "2025-10-05",
+            "time": "17:30",
+            "tz": "Asia/Kolkata"
+        },
+        "normalization_confidence": 0.9
+    },
+    "final": {
+        "appointment": {
+            "department": "Doctor",
+            "date": "2025-10-05",
+            "time": "17:30",
+            "tz": "Asia/Kolkata"
+        },
+        "status": "ok"
+    }
 }
 
 <br>
@@ -169,19 +185,35 @@ Steps:
 **Expected Response:**
 
 {
-  "step1_raw": {"raw_text": "Book dermatologist tomorrow at 10 am", "confidence": 0.93},
-  "step2_entities": {
-    "entities": {"date_phrase": "tomorrow", "time_phrase": "10 am", "department": "Dermatology"},
-    "entities_confidence": 0.85
-  },
-  "step3_normalized": {
-    "normalized": {"date": "2025-10-05", "time": "10:00", "tz": "Asia/Kolkata"},
-    "normalization_confidence": 0.9
-  },
-  "final": {
-    "appointment": {"department": "Dermatology", "date": "2025-10-05", "time": "10:00", "tz": "Asia/Kolkata"},
-    "status": "ok"
-  }
+    "step1_raw": {
+        "raw_text": "Book dentist Friday 5 PM",
+        "confidence": 0.99
+    },
+    "step2_entities": {
+        "entities": {
+            "date_phrase": "friday",
+            "time_phrase": "5 PM",
+            "department": "Dentistry"
+        },
+        "entities_confidence": 0.99
+    },
+    "step3_normalized": {
+        "normalized": {
+            "date": "2025-10-10",
+            "time": "17:00",
+            "tz": "Asia/Kolkata"
+        },
+        "normalization_confidence": 0.9
+    },
+    "final": {
+        "appointment": {
+            "department": "Dentistry",
+            "date": "2025-10-10",
+            "time": "17:00",
+            "tz": "Asia/Kolkata"
+        },
+        "status": "ok"
+    }
 }
 
 <br>
