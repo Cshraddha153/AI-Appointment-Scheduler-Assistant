@@ -64,7 +64,7 @@ OCR (Vision API) ➜ Entity Extraction ➜ Normalization ➜ Final Structured Ou
 ## ⚙️ Setup Instructions
 
 ### 1️⃣ Clone repository
-```bash
+
 git clone https://github.com/<your-username>/AI-Appointment-Scheduler.git
 cd AI-Appointment-Scheduler
 
