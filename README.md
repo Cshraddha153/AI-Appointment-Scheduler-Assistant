@@ -28,9 +28,9 @@ OCR (Vision API) ➜ Entity Extraction ➜ Normalization ➜ Final Structured Ou
 
 ## 🏗️ Architecture
 
-            ┌────────────────────────┐
+            ┌───────────────────────────────┐
             │   Client Request (Text/Image) │
-            └────────────┬───────────┘
+            └────────────┬──────────────────┘
                          │
                          ▼
               ┌──────────────────────┐
@@ -39,16 +39,16 @@ OCR (Vision API) ➜ Entity Extraction ➜ Normalization ➜ Final Structured Ou
               └──────────────────────┘
                          │
                          ▼
-           ┌──────────────────────────────┐
+           ┌───────────────────────────────┐
            │   Entity Extraction Module    │
            │  → Department, Date, Time     │
-           └──────────────────────────────┘
+           └───────────────────────────────┘
                          │
                          ▼
-          ┌──────────────────────────────┐
-          │   Normalization (dateparser) │
+          ┌─────────────────────────────────┐
+          │   Normalization (dateparser)    │
           │  → ISO Date/Time (Asia/Kolkata) │
-          └──────────────────────────────┘
+          └─────────────────────────────────┘
                          │
                          ▼
        ┌────────────────────────────────────────┐
@@ -56,7 +56,9 @@ OCR (Vision API) ➜ Entity Extraction ➜ Normalization ➜ Final Structured Ou
        └────────────────────────────────────────┘
                          │
                          ▼
-             ✅ Final JSON Response
+          ┌──────────────────────────────────┐   
+          │       ✅ Final JSON Response     │
+          └──────────────────────────────────┘
 
 
 ---
@@ -65,13 +67,13 @@ OCR (Vision API) ➜ Entity Extraction ➜ Normalization ➜ Final Structured Ou
 
 ### 1️⃣ Clone repository
 
-git clone https://github.com/<your-username>/AI-Appointment-Scheduler.git
+git clone https://github.com/Cshraddha153/AI-Appointment-Scheduler.git
 cd AI-Appointment-Scheduler
 
 ### 2️⃣ Create virtual environment & install dependencies
 python -m venv venv
-source venv/bin/activate   # (Linux/Mac)
-venv\Scripts\activate      # (Windows)
+
+(Windows)-> venv\Scripts\activate      
 
 pip install fastapi uvicorn google-cloud-vision dateparser python-multipart
 
@@ -87,7 +89,7 @@ In your terminal:
 uvicorn AI_Powered_Appointment_Scheduler_Assistant_(Google_Vision):app --reload
 
 ## 🩺 2. Test Health Endpoint
-Method: GET
+Method: GET <br>
 URL: http://127.0.0.1:8000/health
 
 Steps:
@@ -109,7 +111,7 @@ Steps:
 
 ## ✍️ 3. Test Text Parsing Endpoint
 
-Method: POST
+Method: POST <br>
 URL: http://127.0.0.1:8000/parse_text
 
 Steps:
@@ -143,10 +145,13 @@ Steps:
   }
 }
 
+<br>
+<img width="1390" height="935" alt="input_text" src="https://github.com/user-attachments/assets/cd52523f-4b07-4593-807c-24fa3542dae4" />
+<br>
 
 ## 🖼️ 4. Test Image Parsing Endpoint
 
-Method: POST
+Method: POST <br>
 URL: http://127.0.0.1:8000/parse_image
 
 Steps:
@@ -157,7 +162,7 @@ Steps:
 
 3. Change type to File
 
-4. Upload your image file (e.g., book_dermatologist.png)
+4. Upload your image file (e.g., handwritten_image_dentist.jpeg)
 
 5. Click Send
 
@@ -179,6 +184,31 @@ Steps:
   }
 }
 
+<br>
+<img width="1698" height="1005" alt="input_imape" src="https://github.com/user-attachments/assets/61a10fee-8b29-4764-a4ea-bba5ee98ffca" />
+
+<br>
+
+
+## ⚠️ 5. Guardrail (Ambiguous Input Example)
+
+Method: POST <br>
+URL: http://127.0.0.1:8000/parse_text
+
+Body (JSON):
+{
+  "text": "Checkup at 5pm"
+}
+
+Response:
+{
+    "status": "needs_clarification",
+    "message": "Ambiguous/missing: department"
+}
+
+<br>
+<img width="1804" height="818" alt="Guardrail" src="https://github.com/user-attachments/assets/80ea989d-e87b-4b26-b278-7c906e05b270" />
+<br>
 
 
 
