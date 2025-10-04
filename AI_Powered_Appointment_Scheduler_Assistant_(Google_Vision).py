@@ -14,13 +14,20 @@ from datetime import datetime
 from google.cloud import vision
 import base64
 
+
 app = FastAPI(title="AI Appointment Scheduler Assistant")
 
 # Initialize Google Vision client
-# Set up authentication => set GOOGLE_APPLICATION_CREDENTIALS="path\to\key.json"  # Windows
+# Set up authentication => set GOOGLE_APPLICATION_CREDENTIALS="path\to\key.json"  ## Windows ##
 vision_client = vision.ImageAnnotatorClient()
 
-# ---------- Pydantic models (same as before) ----------
+
+
+
+# -----------------------------------------------------------------------------------------
+# -------------------------------- Pydantic models  ---------------------------------------
+# -----------------------------------------------------------------------------------------
+
 class RawTextResponse(BaseModel):
     raw_text: str
     confidence: float = Field(..., ge=0.0, le=1.0)
@@ -40,7 +47,13 @@ class FinalAppointmentResponse(BaseModel):
 class TextInput(BaseModel):
     text: str
 
-# ---------- Google Vision OCR ----------
+
+
+
+# -----------------------------------------------------------------------------------------
+# ----------------------------- Google Vision OCR -----------------------------------------
+# -----------------------------------------------------------------------------------------
+
 def google_vision_ocr(image_bytes: bytes) -> tuple[str, float]:
     """Use Google Cloud Vision API for OCR - excellent for handwriting."""
     try:
@@ -76,7 +89,13 @@ def google_vision_ocr(image_bytes: bytes) -> tuple[str, float]:
         print(f"Google Vision Error: {str(e)}")
         return "", 0.0
 
-# ---------- Enhanced Text Cleaning ----------
+
+
+
+# -----------------------------------------------------------------------------------------
+# -------------------------- Enhanced Text Cleaning ---------------------------------------
+# -----------------------------------------------------------------------------------------
+
 def clean_ocr_text(text: str) -> str:
     """Clean OCR text with focus on common mistakes."""
     if not text:
@@ -91,7 +110,13 @@ def clean_ocr_text(text: str) -> str:
     
     return text
 
-# ---------- Entity Extraction ----------
+
+
+
+# -----------------------------------------------------------------------------------------
+# ------------------------------- Entity Extraction --------------------------------------
+# -----------------------------------------------------------------------------------------
+
 def extract_entities_from_text(text: str) -> tuple[Dict[str, Optional[str]], float]:
     """Extract appointment entities from text."""
     lower = text.lower()
@@ -164,6 +189,11 @@ def extract_entities_from_text(text: str) -> tuple[Dict[str, Optional[str]], flo
 
 
 
+
+# -----------------------------------------------------------------------------------------
+# -------------------------------- Normalization (Asia/Kolkata) -------------------------------------
+# -----------------------------------------------------------------------------------------
+
 def normalize_entities(entities: Dict[str, Optional[str]]) -> tuple[Dict[str, Optional[str]], float]:
     """Normalize entities to ISO format."""
     settings = {
@@ -207,6 +237,12 @@ def normalize_entities(entities: Dict[str, Optional[str]]) -> tuple[Dict[str, Op
 
 
 
+
+# -----------------------------------------------------------------------------------------
+# --------------------------------- Guardrail / Exit Condition ----------------------------
+# -----------------------------------------------------------------------------------------
+
+
 def needs_clarification(entities: Dict, normalized: Dict) -> Optional[Dict]:
     """Check if any required fields are missing."""
     missing = []
@@ -225,6 +261,8 @@ def needs_clarification(entities: Dict, normalized: Dict) -> Optional[Dict]:
         }
     
     return None
+
+
 
 
 # -----------------------------------------------------------------------------------------
